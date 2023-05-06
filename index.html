@@ -1,62 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- cool meta tags -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>y</title>
+
+    <!-- Discord Embed... -->
+    <meta content="y" property="og:title"/>
+    <meta content="a gift for someone :3" property="og:description"/>
+    <meta content="https://y.astroup.xyz/" property="og:url"/>
+    <meta content="#578efa" data-react-helmet="true" name="theme-color"/>
+
+    <!-- the style -->
     <style>
-
-        @font-face {
-            font-family: beatshape_default;
-            src: url('https://cdn.jsdelivr.net/gh/jathusanT/pebble_pedometer@master/resources/fonts/ARLRDBD.TTF');
-            font-weight:400;
-            font-weight:normal;
-        }
-
-
-        body {
-            font-family: beatshape_default;
-            background-color: #0a0a0a;
-            background-size: 200% 200%;
-            animation: inf 15s ease infinite; 
-            
-        }
-
-        h {
-            font-size: 100px;
-            margin: 0;
-            color: white;
-            background: black;
-            background: linear-gradient(to bottom,#ff0000,#ffb300,#00ff37,#00ffdd,#0040ff,#4c00ff, #ff00d9, #ff004c);
-            background-clip: text;
-            background-size: 100% 200%;
-            animation: inf2 7s ease infinite; 
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        video {
-            background-color: #ffffff60;
-            border-radius: 32px;
-        }
-
-        @keyframes inf {
-            0% {background-position: 0% 0%;}
-            50% {background-position: 100% 0%;}
-            100% {background-position: 0% 0%;}
-        } 
-
-        @keyframes inf2 {
-            0% {background-position: 0% 0%;}
-            50% {background-position: 0% 100%;}
-            100% {background-position: 0% 0%;}
-        } 
+        @font-face{font-family:beatshape_default;src:url('https://cdn.jsdelivr.net/gh/jathusanT/pebble_pedometer@master/resources/fonts/ARLRDBD.TTF');font-weight:400;font-weight:400}body{font-family:beatshape_default;background-color:#0a0a0a}h{font-size:100px;margin:0;color:#fff;background:#000;background:linear-gradient(to bottom,red,#ffb300,#00ff37,#0fd,#0040ff,#4c00ff,#ff00d9,#ff004c);background-clip:text;background-size:100% 200%;animation:7s infinite inf;-webkit-background-clip:text;-webkit-text-fill-color:transparent}@keyframes inf{0%,100%{background-position:0 0}50%{background-position:0 100%}}
       </style>
 </head>
 <body>
+    <!--the y itself-->
     <div style="display: flex;justify-content: center;align-items: center;"><h style="font-size: 65vh;">y</h></div>
     
-    <br><br><br><br><p style="margin: 0;margin-left: -3vw;text-align: center;font-size: 36px;color:#ffffff11">small gift to my gf that i love, ilysm <3</p>
+    <!--smol message-->
+    <br><br><br><br><p style="margin: 0;margin-left: -3vw;text-align: center;font-size: 36px;color:#ffffff11" id="text">small gift to my gf that i love, ilysm <3</p>
+
+    <!-- editable msg -->
+    <br><br><div style="display: flex;justify-content: center;align-items: center;"><p id="urlText" style="margin: 0;text-align: center;margin-left: -3vw;opacity: 0;margin-right: 10px;color:#ffffff33">your special link: </p><input id="url" style="opacity: 0;text-align: center;background-color: #ffffff33;border: #ffffff33;border-radius: 4px;" size="35"></input></div>
+    <script>
+        // when page loads, load user message (if it exists)
+        if (location.search != '') {
+            var msg = location.search.replace('?msg=', '')
+            document.getElementById('text').innerText = atob(msg)
+        }
+
+        // checking if user is focused on the input to allow copying.
+        var isFocused;
+
+        document.getElementById('url').onfocus = () => {
+            isFocused = 1;
+        }
+
+        document.getElementById('url').onblur = () => {
+            isFocused = 0;
+        }
+
+        // looping function which toggles edit mode
+        setInterval(() => {
+            if (location.hash == "#edit") {
+                if (window.isEditMode != true) {
+                    window.isEditMode = true
+                }
+            } else {
+                if (window.isEditMode == true) {
+                    window.isEditMode = false
+                }
+            }
+
+            if (window.isEditMode) {
+                document.getElementById('text').contentEditable = 'true'
+                document.getElementById('url').style.opacity = '1'
+                document.getElementById('urlText').style.opacity = '1'
+            }
+
+            if (!window.isEditMode) {
+                document.getElementById('text').contentEditable = 'false'
+                document.getElementById('url').style.opacity = '0'
+                document.getElementById('urlText').style.opacity = '0'
+            }
+        }, 500);
+
+        // if input isnt focused, update special url.
+        setInterval(() => {
+            if (isFocused != 1) {
+                if (document.getElementById('text').innerText != "small gift to my gf that i love, ilysm <3") {
+                    document.getElementById('url').value = location.origin + "?msg=" + btoa(document.getElementById('text').innerText)
+                } else {
+                    document.getElementById('url').value = location.origin
+                }
+            }
+        }, 50);
+    </script>
 </body>
 </html>
